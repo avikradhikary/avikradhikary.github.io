@@ -1,1 +1,1 @@
-# avikadhikary.github.io
+# avikradhikary.github.io
