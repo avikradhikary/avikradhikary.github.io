@@ -214,7 +214,7 @@ h1, h2, h3, h4, h5, h6 {
   background: url("../img/WechatIMG821.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  position: right;
+  background-position: center center;
 }
 
 #hero:before {
