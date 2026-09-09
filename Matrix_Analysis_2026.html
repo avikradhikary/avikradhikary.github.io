@@ -34,6 +34,32 @@
             margin: 0 auto;
         }
 
+        /* Top Navigation / Back Button */
+        .nav-top {
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0.9rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--card-bg);
+            transition: all 0.2s ease;
+        }
+
+        .btn-back:hover {
+            border-color: var(--accent-blue);
+            background-color: rgba(56, 189, 248, 0.1);
+            transform: translateX(-2px);
+        }
+
         header {
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 1.5rem;
@@ -167,6 +193,11 @@
 <body>
 
 <div class="container">
+    <!-- Back to Main Homepage Button -->
+    <div class="nav-top">
+        <a href="../" class="btn-back">&#8592; Back to Homepage</a>
+    </div>
+
     <header>
         <div class="dept-tag">Southwest Jiaotong University • Department of Mathematics</div>
         <h1>Matrix Analysis</h1>
