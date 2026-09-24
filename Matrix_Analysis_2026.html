@@ -65,6 +65,17 @@
         .notice-box strong {
             color: #d46b08;
         }
+        .expired-banner {
+            background: #fff2f0;
+            border: 1px solid #ffccc7;
+            color: #cf1322;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+        }
         .form-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 6px; font-weight: bold; color: #333; font-size: 0.9rem; }
         input[type="text"], input[type="file"] { 
@@ -87,7 +98,7 @@
             transition: background 0.2s;
         }
         button:hover { background: #2c974b; }
-        button:disabled { background: #94d3a2; cursor: not-allowed; }
+        button:disabled { background: #d9d9d9; color: #8c8c8c; cursor: not-allowed; }
         #status { margin-top: 15px; text-align: center; font-weight: bold; font-size: 0.95rem; }
         .footer-support {
             margin-top: 25px;
@@ -115,11 +126,17 @@
         <div class="assignment-badge">Assignment 2</div>
         
         <div class="notice-box">
-            <strong>Deadline:</strong> October 27, 2026 (27/10/2026)<br>
+            <strong>Deadline:</strong> October 27, 2026 (23:59:59)<br>
             Please make sure your full name and student ID are clearly stated in your submitted document before uploading.
         </div>
     </div>
 
+    <!-- Closed notice container (Hidden by default) -->
+    <div id="closedBanner" class="expired-banner" style="display: none;">
+        Submission deadline for Assignment 2 is over.
+    </div>
+
+    <!-- Form container -->
     <form id="uploadForm">
         <div class="form-group">
             <label for="studentName">Student Name & ID:</label>
@@ -143,9 +160,33 @@
 <script>
 const WORKER_URL = 'https://assignment-proxy.avikranjanadhikary.workers.dev/'; // e.g. https://assignment-proxy.subdomain.workers.dev
 
+// Set the exact deadline (Year, Month Index [0-11], Day, Hours, Minutes, Seconds)
+// Note: Month 9 represents October (0 = January, 9 = October)
+const DEADLINE = new Date(2026, 9, 27, 23, 59, 59); 
+
+function checkDeadline() {
+    const now = new Date();
+    if (now > DEADLINE) {
+        // Hide the form and show the closed notice
+        document.getElementById('uploadForm').style.display = 'none';
+        document.getElementById('closedBanner').style.display = 'block';
+        return true;
+    }
+    return false;
+}
+
+// Check deadline on page load
+checkDeadline();
+
 document.getElementById('uploadForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
+    // Double check deadline upon submitting
+    if (checkDeadline()) {
+        alert('Submission deadline for Assignment 2 is over.');
+        return;
+    }
+
     const btn = document.getElementById('submitBtn');
     const st = document.getElementById('status');
     const nameInput = document.getElementById('studentName').value.trim();
