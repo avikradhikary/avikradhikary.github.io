@@ -123,15 +123,15 @@
     <div class="header">
         <p class="course-code">LM34002001-01</p>
         <h1>Matrix Analysis</h1>
-        <div class="assignment-badge">Assignment 2</div>
+        <div class="assignment-badge" id="assignmentTitle">Assignment 2</div>
         
         <div class="notice-box">
             <strong>Deadline:</strong> October 27, 2026 (23:59:59)<br>
-            Please make sure your full name and student ID are clearly stated in your submitted document before uploading.
+            Note: Only PDF files are accepted for submission.
         </div>
     </div>
 
-    <!-- Closed notice container (Hidden by default) -->
+    <!-- Closed notice container -->
     <div id="closedBanner" class="expired-banner" style="display: none;">
         Submission deadline for Assignment 2 is over.
     </div>
@@ -139,13 +139,20 @@
     <!-- Form container -->
     <form id="uploadForm">
         <div class="form-group">
-            <label for="studentName">Student Name & ID:</label>
-            <input type="text" id="studentName" required placeholder="e.g., John Doe - 20261234">
+            <label for="studentName">Full Name:</label>
+            <input type="text" id="studentName" required placeholder="e.g., John Doe">
         </div>
+
         <div class="form-group">
-            <label for="assignmentFile">Select File (PDF, ZIP, DOCX):</label>
-            <input type="file" id="assignmentFile" required>
+            <label for="studentId">Student ID:</label>
+            <input type="text" id="studentId" required placeholder="e.g., 20261234">
         </div>
+
+        <div class="form-group">
+            <label for="assignmentFile">Select Assignment Document (PDF only):</label>
+            <input type="file" id="assignmentFile" accept="application/pdf" required>
+        </div>
+
         <button type="submit" id="submitBtn">Submit Assignment</button>
     </form>
     
@@ -160,39 +167,48 @@
 <script>
 const WORKER_URL = 'https://assignment-proxy.avikranjanadhikary.workers.dev/'; // e.g. https://assignment-proxy.subdomain.workers.dev
 
-// Set the exact deadline (Year, Month Index [0-11], Day, Hours, Minutes, Seconds)
-// Note: Month 9 represents October (0 = January, 9 = October)
+// Set the current assignment details
+const ASSIGNMENT_NUM = "2"; // Change to "3" for Assignment 3 later
+const ASSIGNMENT_FOLDER = `Assignment_${ASSIGNMENT_NUM}`;
+
+// Set deadline: October 27, 2026 at 23:59:59 (Month index 9 = October)
 const DEADLINE = new Date(2026, 9, 27, 23, 59, 59); 
 
 function checkDeadline() {
     const now = new Date();
     if (now > DEADLINE) {
-        // Hide the form and show the closed notice
         document.getElementById('uploadForm').style.display = 'none';
+        document.getElementById('closedBanner').innerText = `Submission deadline for Assignment ${ASSIGNMENT_NUM} is over.`;
         document.getElementById('closedBanner').style.display = 'block';
         return true;
     }
     return false;
 }
 
-// Check deadline on page load
+// Initial deadline check on page load
 checkDeadline();
 
 document.getElementById('uploadForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    // Double check deadline upon submitting
     if (checkDeadline()) {
-        alert('Submission deadline for Assignment 2 is over.');
+        alert(`Submission deadline for Assignment ${ASSIGNMENT_NUM} is over.`);
         return;
     }
 
     const btn = document.getElementById('submitBtn');
     const st = document.getElementById('status');
     const nameInput = document.getElementById('studentName').value.trim();
+    const idInput = document.getElementById('studentId').value.trim();
     const fileInput = document.getElementById('assignmentFile').files[0];
 
     if (!fileInput) return alert('Please select a file.');
+
+    // Strict client-side PDF verification
+    if (fileInput.type !== "application/pdf" && !fileInput.name.toLowerCase().endsWith(".pdf")) {
+        alert("Invalid file type. Only PDF documents are allowed.");
+        return;
+    }
 
     btn.disabled = true;
     st.style.color = '#0070f3';
@@ -200,17 +216,24 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 
     try {
         const base64Content = await toBase64(fileInput);
+        
+        // Clean inputs for file system compatibility
         const safeName = nameInput.replace(/[^a-zA-Z0-9]/g, '_');
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const filename = `Assignment2_${safeName}_${timestamp}_${fileInput.name}`;
+        const safeId = idInput.replace(/[^a-zA-Z0-9]/g, '_');
+        
+        // Target format: StudentID_Assignment2_StudentName.pdf
+        const renamedFilename = `${safeId}_Assignment${ASSIGNMENT_NUM}_${safeName}.pdf`;
+        
+        // Final Path: Assignment_2/20261234_Assignment2_John_Doe.pdf
+        const fullFilePath = `${ASSIGNMENT_FOLDER}/${renamedFilename}`;
 
         const response = await fetch(WORKER_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                filename: filename,
+                filename: fullFilePath,
                 content: base64Content,
-                studentName: nameInput
+                studentName: `${nameInput} (${idInput})`
             })
         });
 
