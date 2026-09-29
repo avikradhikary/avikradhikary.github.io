@@ -1,267 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix Analysis - Assignment Submission Portal</title>
-    <style>
-        * { box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background: #f4f7f6; 
-            margin: 0; 
-            padding: 20px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-        }
-        .card { 
-            background: white; 
-            padding: 30px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            width: 100%; 
-            max-width: 500px; 
-        }
-        .header {
-            border-bottom: 2px solid #eaeaea;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-        .course-code {
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #0070f3;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            margin: 0;
-        }
-        h1 { 
-            margin: 5px 0 10px 0; 
-            color: #111; 
-            font-size: 1.5rem;
-        }
-        .assignment-badge {
-            display: inline-block;
-            background: #e6f7ff;
-            color: #0050b3;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .notice-box {
-            background: #fffbe6;
-            border: 1px solid #ffe58f;
-            border-radius: 6px;
-            padding: 12px 15px;
-            font-size: 0.9rem;
-            color: #595959;
-            margin-bottom: 20px;
-            line-height: 1.4;
-        }
-        .notice-box strong {
-            color: #d46b08;
-        }
-        .expired-banner {
-            background: #fff2f0;
-            border: 1px solid #ffccc7;
-            color: #cf1322;
-            padding: 15px;
-            border-radius: 6px;
-            font-weight: bold;
-            text-align: center;
-            font-size: 1.05rem;
-            margin-bottom: 20px;
-        }
-        .form-group { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 6px; font-weight: bold; color: #333; font-size: 0.9rem; }
-        input[type="text"], input[type="file"] { 
-            width: 100%; 
-            padding: 10px; 
-            border: 1px solid #ccc; 
-            border-radius: 6px; 
-            font-size: 0.95rem;
-        }
-        button { 
-            background: #2ea44f; 
-            color: white; 
-            border: none; 
-            padding: 12px; 
-            width: 100%; 
-            border-radius: 6px; 
-            font-size: 1rem; 
-            cursor: pointer; 
-            font-weight: bold; 
-            transition: background 0.2s;
-        }
-        button:hover { background: #2c974b; }
-        button:disabled { background: #d9d9d9; color: #8c8c8c; cursor: not-allowed; }
-        #status { margin-top: 15px; text-align: center; font-weight: bold; font-size: 0.95rem; }
-        .footer-support {
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid #f0f0f0;
-            font-size: 0.85rem;
-            color: #666;
-            text-align: center;
-        }
-        .footer-support a {
-            color: #0070f3;
-            text-decoration: none;
-        }
-        .footer-support a:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Assignment Submission</title>
+  <style>
+    .banner {
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .expired-banner {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      display: none;
+    }
+    input:disabled, button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="header">
-        <p class="course-code">LM34002001-01</p>
-        <h1>Matrix Analysis</h1>
-        <div class="assignment-badge" id="assignmentTitle">Assignment 2</div>
-        
-        <div class="notice-box">
-            <strong>Deadline:</strong> September 26, 2026 (23:59:59)<br>
-            Note: Only PDF files are accepted for submission.
-        </div>
+  <!-- Deadline expired alert message -->
+  <div id="deadline-banner" class="banner expired-banner">
+    ⚠️ The submission deadline has passed (Beijing Standard Time, UTC+8). Submissions are now closed.
+  </div>
+
+  <form id="submission-form">
+    <div>
+      <label for="token">Submission Token / Credentials:</label><br>
+      <input type="text" id="token" name="token" required>
     </div>
-
-    <!-- Closed notice container -->
-    <div id="closedBanner" class="expired-banner" style="display: none;">
-        Submission deadline for Assignment 2 is over.
+    <br>
+    <div>
+      <label for="file-upload">Attachment:</label><br>
+      <input type="file" id="file-upload" name="file" required>
     </div>
+    <br>
+    <button type="submit" id="submit-btn">Submit Assignment</button>
+  </form>
 
-    <!-- Form container -->
-    <form id="uploadForm">
-        <div class="form-group">
-            <label for="studentName">Full Name:</label>
-            <input type="text" id="studentName" required placeholder="e.g., John Doe">
-        </div>
+  <script>
+    // 1. Define deadline explicitly in Beijing Standard Time (UTC+8)
+    // Format: YYYY-MM-DDTHH:mm:ss+08:00
+    const BEIJING_DEADLINE_STR = "2026-10-15T23:59:59+08:00"; 
+    const deadline = new Date(BEIJING_DEADLINE_STR);
 
-        <div class="form-group">
-            <label for="studentId">Student ID:</label>
-            <input type="text" id="studentId" required placeholder="e.g., 20261234">
-        </div>
+    function validateDeadline() {
+      const now = new Date(); // JavaScript automatically compares against absolute UTC timestamp
 
-        <div class="form-group">
-            <label for="assignmentFile">Select Assignment Document (PDF only):</label>
-            <input type="file" id="assignmentFile" accept="application/pdf" required>
-        </div>
+      if (now > deadline) {
+        // Show expired message
+        document.getElementById("deadline-banner").style.display = "block";
 
-        <button type="submit" id="submitBtn">Submit Assignment</button>
-    </form>
-    
-    <div id="status"></div>
+        // Disable input fields and submit button to prevent upload attempts
+        document.getElementById("submit-btn").disabled = true;
+        document.getElementById("token").disabled = true;
+        document.getElementById("file-upload").disabled = true;
 
-    <div class="footer-support">
-        For any submission-related issues, please email:<br>
-        <a href="mailto:avik.adhikary@swjtu.edu.cn">avik.adhikary@swjtu.edu.cn</a>
-    </div>
-</div>
-
-<script>
-const WORKER_URL = 'https://assignment-proxy.avikranjanadhikary.workers.dev/'; // e.g. https://assignment-proxy.subdomain.workers.dev
-
-// Set the current assignment details
-const ASSIGNMENT_NUM = "2"; // Change to "3" for Assignment 3 later
-const ASSIGNMENT_FOLDER = `Assignment_${ASSIGNMENT_NUM}`;
-
-// Set deadline: October 27, 2026 at 23:59:59 (Month index 9 = October)
-const DEADLINE = new Date(2026, 9, 27, 23, 59, 59); 
-
-function checkDeadline() {
-    const now = new Date();
-    if (now > DEADLINE) {
-        document.getElementById('uploadForm').style.display = 'none';
-        document.getElementById('closedBanner').innerText = `Submission deadline for Assignment ${ASSIGNMENT_NUM} is over.`;
-        document.getElementById('closedBanner').style.display = 'block';
-        return true;
-    }
-    return false;
-}
-
-// Initial deadline check on page load
-checkDeadline();
-
-document.getElementById('uploadForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    if (checkDeadline()) {
-        alert(`Submission deadline for Assignment ${ASSIGNMENT_NUM} is over.`);
-        return;
+        return false; // Deadline expired
+      }
+      return true; // Deadline active
     }
 
-    const btn = document.getElementById('submitBtn');
-    const st = document.getElementById('status');
-    const nameInput = document.getElementById('studentName').value.trim();
-    const idInput = document.getElementById('studentId').value.trim();
-    const fileInput = document.getElementById('assignmentFile').files[0];
+    // Check deadline as soon as the page loads
+    window.addEventListener("DOMContentLoaded", validateDeadline);
 
-    if (!fileInput) return alert('Please select a file.');
-
-    // Strict client-side PDF verification
-    if (fileInput.type !== "application/pdf" && !fileInput.name.toLowerCase().endsWith(".pdf")) {
-        alert("Invalid file type. Only PDF documents are allowed.");
-        return;
-    }
-
-    btn.disabled = true;
-    st.style.color = '#0070f3';
-    st.innerText = 'Uploading submission...';
-
-    try {
-        const base64Content = await toBase64(fileInput);
-        
-        // Clean inputs for file system compatibility
-        const safeName = nameInput.replace(/[^a-zA-Z0-9]/g, '_');
-        const safeId = idInput.replace(/[^a-zA-Z0-9]/g, '_');
-        
-        // Target format: StudentID_Assignment2_StudentName.pdf
-        const renamedFilename = `${safeId}_Assignment${ASSIGNMENT_NUM}_${safeName}.pdf`;
-        
-        // Final Path: Assignment_2/20261234_Assignment2_John_Doe.pdf
-        const fullFilePath = `${ASSIGNMENT_FOLDER}/${renamedFilename}`;
-
-        const response = await fetch(WORKER_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                filename: fullFilePath,
-                content: base64Content,
-                studentName: `${nameInput} (${idInput})`
-            })
-        });
-
-        if (response.ok) {
-            st.style.color = 'green';
-            st.innerText = 'Assignment submitted successfully!';
-            document.getElementById('uploadForm').reset();
-        } else {
-            const errData = await response.json();
-            throw new Error(errData.message || 'Upload failed');
-        }
-    } catch (err) {
-        st.style.color = 'red';
-        st.innerText = 'Error: ' + err.message;
-    } finally {
-        btn.disabled = false;
-    }
-});
-
-function toBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.onerror = error => reject(error);
+    // Check deadline on form submission attempt
+    document.getElementById("submission-form").addEventListener("submit", function(e) {
+      if (!validateDeadline()) {
+        e.preventDefault(); // Stop form submission
+        alert("Submission rejected: The deadline (Beijing Time) has already passed.");
+      }
     });
-}
-</script>
-
+  </script>
 </body>
 </html>
