@@ -15,7 +15,9 @@
             --text-muted: #64748b;
             --border-color: #e2e8f0;
             --success: #16a34a;
+            --success-hover: #15803d;
             --danger: #dc2626;
+            --danger-hover: #b91c1c;
             --warning-bg: #fffbe6;
             --warning-border: #ffe58f;
             --warning-text: #d46b08;
@@ -145,6 +147,20 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .action-column {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .deadline-subtext {
+            font-size: 0.78rem;
+            color: var(--danger);
+            font-weight: 600;
+            margin-top: 2px;
         }
 
         .btn {
@@ -170,15 +186,24 @@
             background-color: var(--primary-hover);
         }
 
-        .btn-outline {
-            background-color: transparent;
-            border-color: var(--border-color);
-            color: var(--text-main);
+        /* Red Accent Buttons (PDF & Questions) */
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
         }
 
-        .btn-outline:hover {
-            background-color: #f1f5f9;
-            border-color: #cbd5e1;
+        .btn-danger:hover {
+            background-color: var(--danger-hover);
+        }
+
+        /* Green Accent Buttons (Solutions) */
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: var(--success-hover);
         }
 
         .btn-disabled {
@@ -391,8 +416,8 @@
 
     <!-- Notice Box -->
     <div class="notice-box">
-        <strong>Notice:</strong> No class on <strong>14 Oct</strong> & <strong>21 Oct 2026</strong>. 
-        Deadline of Assignment 2 is <strong>21 Oct 2026</strong>.
+        <strong>Notice:</strong> No class on <strong>14 Oct</strong> & <strong>21 Oct 2024</strong>. 
+        Deadline of Assignment 2 is <strong>21 Oct 2024</strong>.
     </div>
 
     <!-- Class Slides -->
@@ -410,28 +435,28 @@
                 <tbody>
                     <tr>
                         <td>16 Sept, 2026</td>
-                        <td> Basic Matrix Notations, Inverse of a Matrix</td>
-                        <td><a href="slides/matrixanalysis1 2026.pdf" target="_blank" class="btn btn-outline">PDF</a></td>
+                        <td>Basic Matrix Notations, Inverse of a Matrix</td>
+                        <td><a href="slides/matrixanalysis1 2026.pdf" target="_blank" class="btn btn-danger">PDF</a></td>
                     </tr>
                     <tr>
                         <td>20 Sept, 2026</td>
-                        <td> LU Decomposition, RREF, Gauss-Jordan method</td>
-                        <td><a href="slides/matrixanalysis2 2026.pdf" target="_blank" class="btn btn-outline">PDF</a></td>
+                        <td>LU Decomposition, RREF, Gauss-Jordan method</td>
+                        <td><a href="slides/matrixanalysis2 2026.pdf" target="_blank" class="btn btn-danger">PDF</a></td>
                     </tr>
                     <tr>
                         <td>23 Sept, 2026</td>
                         <td>PA=LU Decomposition, Vector Space, Subspace of a vector space</td>
-                        <td><a href="slides/Matrixanalysis3 2026.pdf" target="_blank" class="btn btn-outline">PDF</a></td>
+                        <td><a href="slides/Matrixanalysis3 2026.pdf" target="_blank" class="btn btn-danger">PDF</a></td>
                     </tr>
                     <tr>
                         <td>27 Sept, 2026</td>
                         <td>Inner product, Orthogonality, QR decomposition using Gram-Schmidt process</td>
-                        <td><a href="slides/Matrixanalysis4 2026.pdf" target="_blank" class="btn btn-outline">PDF</a></td>
+                        <td><a href="slides/Matrixanalysis4 2026.pdf" target="_blank" class="btn btn-danger">PDF</a></td>
                     </tr>
                     <tr>
                         <td>30 Sept, 2026</td>
                         <td>Row Space, Column Space, Null Space, Projection on to a subspace</td>
-                        <td><a href="slides/Matrixanalysis5 2026.pdf" target="_blank" class="btn btn-outline">PDF</a></td>
+                        <td><a href="slides/Matrixanalysis5 2026.pdf" target="_blank" class="btn btn-danger">PDF</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -459,23 +484,26 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="assignments/assignment1.pdf" target="_blank" class="btn btn-outline">Questions</a>
+                                <a href="assignments/assignment1.pdf" target="_blank" class="btn btn-danger">Questions</a>
                                 <button class="btn btn-disabled" disabled>Deadline is over</button>
-                                <a href="#" class="btn btn-outline" onclick="alert('Downloading Assignment 1 Solution PDF'); return false;">Solutions</a>
+                                <a href="assignments/Assignment1_Solution.pdf" target="_blank" class="btn btn-success">Solutions</a>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td>30 Sept</td>
+                        <td>30 Sept, 2026</td>
                         <td>
                             <strong>Assignment 2</strong><br>
                             <span style="font-size: 0.85rem; color: var(--text-muted);">Matrix Rank</span>
                         </td>
                         <td>
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-outline" onclick="alert('Downloading Assignment 2 Questions PDF'); return false;">Questions</a>
-                                <button class="btn btn-primary" onclick="openSubmissionModal()">Submit Assignment</button>
-                                <a href="#" class="btn btn-outline" onclick="alert('Downloading Assignment 2 Solution PDF'); return false;">Solution</a>
+                            <div class="action-column">
+                                <div class="btn-group">
+                                    <a href="assignments/Assignment2_Questions.pdf" target="_blank" class="btn btn-danger">Questions</a>
+                                    <button class="btn btn-primary" onclick="openSubmissionModal()">Submit Assignment</button>
+                                    <a href="assignments/Assignment2_Solution.pdf" target="_blank" class="btn btn-success">Solutions</a>
+                                </div>
+                                <div class="deadline-subtext">Deadline: 21 Sept, 2026</div>
                             </div>
                         </td>
                     </tr>
@@ -490,7 +518,7 @@
         <ul class="reference-list">
             <li>Horn & Johnson – <em>Matrix Analysis</em></li>
             <li>Golub & Van Loan – <em>Matrix Computations</em></li>
-            <li>Gilbert Strang – <em><a href="https://libgen.li/get.php?md5=836a199f62f58ade1e845140db71708b&key=IEQNUVJ3TO6RUDK9">Linear Algebra and Its Applications</a></em></li>
+            <li>Gilbert Strang – <em>Linear Algebra and Its Applications</em></li>
         </ul>
     </section>
 
@@ -511,7 +539,7 @@
             <div class="assignment-badge" id="assignmentTitle">Assignment 2</div>
             
             <div class="modal-notice">
-                <strong>Deadline:</strong> October 21, 2026 (23:59:59 CST / Beijing Time)<br>
+                <strong>Deadline:</strong> September 21, 2026 (23:59:59 CST / Beijing Time)<br>
                 Note: Only PDF files are accepted for submission.
             </div>
         </div>
@@ -552,8 +580,8 @@ const WORKER_URL = 'https://assignment-proxy.avikranjanadhikary.workers.dev/';
 const ASSIGNMENT_NUM = "2";
 const ASSIGNMENT_FOLDER = `Assignment_${ASSIGNMENT_NUM}`;
 
-// Beijing Standard Time (UTC+8) ISO 8601 Timestamp
-const BEIJING_DEADLINE_ISO = "2026-10-27T23:59:59+08:00"; 
+// Beijing Standard Time (UTC+8) ISO 8601 Timestamp: Sept 21, 2026
+const BEIJING_DEADLINE_ISO = "2026-09-21T23:59:59+08:00"; 
 const DEADLINE = new Date(BEIJING_DEADLINE_ISO); 
 
 function checkDeadline() {
