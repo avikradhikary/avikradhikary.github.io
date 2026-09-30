@@ -3,44 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix Analysis - Assignment Submission Portal</title>
+    <title>Matrix Analysis (LM34002001-01) - Course Portal</title>
     <style>
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { 
-            background: #f4f7f6; 
-            margin: 0; 
-            padding: 20px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
+        :root {
+            --primary: #0f172a;
+            --primary-accent: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning-bg: #fffbe6;
+            --warning-border: #ffe58f;
+            --warning-text: #d46b08;
         }
-        .card { 
-            background: white; 
-            padding: 30px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            width: 100%; 
-            max-width: 500px; 
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
-        .header {
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+        }
+
+        /* Course Header */
+        .course-header {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 24px;
+            margin-bottom: 28px;
+        }
+
+        .course-code {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .course-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 6px 0 16px 0;
+            letter-spacing: -0.02em;
+        }
+
+        .instructor-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .instructor-info span strong {
+            color: var(--text-main);
+        }
+
+        /* Notice Box */
+        .notice-box {
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            font-size: 0.95rem;
+            color: #595959;
+        }
+
+        .notice-box strong {
+            color: var(--warning-text);
+        }
+
+        /* Section Layout */
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 36px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            font-weight: 600;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Button Group Styles */
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border-color: var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .btn-disabled {
+            background-color: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
+            border-color: #e2e8f0;
+        }
+
+        /* Reference List */
+        .reference-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 36px;
+        }
+
+        .reference-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .reference-list li::before {
+            content: "•";
+            position: absolute;
+            left: 8px;
+            color: var(--primary-accent);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .footer a {
+            color: var(--primary-accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal Styles */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            margin: 20px;
+        }
+
+        .modal-header {
             border-bottom: 2px solid #eaeaea;
             padding-bottom: 15px;
             margin-bottom: 20px;
+            position: relative;
         }
-        .course-code {
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #0070f3;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            margin: 0 0 5px 0;
-        }
-        h1 { 
-            margin: 0 0 10px 0; 
-            color: #111; 
+
+        .close-modal-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: none;
+            border: none;
             font-size: 1.5rem;
+            line-height: 1;
+            color: var(--text-muted);
+            cursor: pointer;
         }
+
+        .close-modal-btn:hover {
+            color: var(--text-main);
+        }
+
         .assignment-badge {
             display: inline-block;
             background: #e6f7ff;
@@ -49,21 +287,24 @@
             border-radius: 4px;
             font-size: 0.85rem;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
-        .notice-box {
+
+        .modal-notice {
             background: #fffbe6;
             border: 1px solid #ffe58f;
             border-radius: 6px;
             padding: 12px 15px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #595959;
             margin-bottom: 20px;
             line-height: 1.4;
         }
-        .notice-box strong {
+
+        .modal-notice strong {
             color: #d46b08;
         }
+
         .expired-banner {
             background: #fff2f0;
             border: 1px solid #ffccc7;
@@ -72,111 +313,231 @@
             border-radius: 6px;
             font-weight: bold;
             text-align: center;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             margin-bottom: 20px;
         }
-        .form-group { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 6px; font-weight: bold; color: #333; font-size: 0.9rem; }
-        input[type="text"], input[type="file"] { 
-            width: 100%; 
-            padding: 10px; 
-            border: 1px solid #ccc; 
-            border-radius: 6px; 
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .form-group input[type="text"], 
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
             font-size: 0.95rem;
             background-color: #fff;
         }
-        input[type="text"]:focus, input[type="file"]:focus {
+
+        .form-group input[type="text"]:focus, 
+        .form-group input[type="file"]:focus {
             border-color: #0070f3;
             outline: none;
         }
-        button { 
-            background: #2ea44f; 
-            color: white; 
-            border: none; 
-            padding: 12px; 
-            width: 100%; 
-            border-radius: 6px; 
-            font-size: 1rem; 
-            cursor: pointer; 
-            font-weight: bold; 
+
+        .submit-btn {
+            background: #2ea44f;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
             transition: background 0.2s;
         }
-        button:hover { background: #2c974b; }
-        button:disabled { background: #d9d9d9; color: #8c8c8c; cursor: not-allowed; }
-        #status { margin-top: 15px; text-align: center; font-weight: bold; font-size: 0.95rem; }
-        .footer-support {
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid #f0f0f0;
-            font-size: 0.85rem;
-            color: #666;
+
+        .submit-btn:hover {
+            background: #2c974b;
+        }
+
+        .submit-btn:disabled {
+            background: #d9d9d9;
+            color: #8c8c8c;
+            cursor: not-allowed;
+        }
+
+        #status {
+            margin-top: 15px;
             text-align: center;
-        }
-        .footer-support a {
-            color: #0070f3;
-            text-decoration: none;
-        }
-        .footer-support a:hover {
-            text-decoration: underline;
+            font-weight: bold;
+            font-size: 0.95rem;
         }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="header">
-        <p class="course-code">LM34002001-01</p>
-        <h1>Matrix Analysis</h1>
-        <div class="assignment-badge" id="assignmentTitle">Assignment 2</div>
-        
-        <div class="notice-box">
-            <strong>Deadline:</strong> October 21, 2026 (23:59:59 CST / Beijing Time)<br>
-            Note: Only PDF files are accepted for submission.
+<div class="container">
+    <!-- Header -->
+    <header class="course-header">
+        <div class="course-code">LM34002001-01</div>
+        <h1 class="course-title">Matrix Analysis</h1>
+        <div class="instructor-info">
+            <span>Course Instructor: <strong>Avik Ranjan Adhikary</strong></span>
+            <span>Timing & Location: <strong>Building 9, Xipu Campus | Wednesday 9:50 AM – 12:25 PM</strong></span>
         </div>
+    </header>
+
+    <!-- Notice Box -->
+    <div class="notice-box">
+        <strong>Notice:</strong> No class on <strong>14 Oct</strong> & <strong>21 Oct 2024</strong>. 
+        Deadline of Assignment 2 is <strong>21 Oct 2024</strong>.
     </div>
 
-    <!-- Closed notice container -->
-    <div id="closedBanner" class="expired-banner" style="display: none;">
-        Submission deadline for Assignment 2 is over.
-    </div>
-
-    <!-- Form container -->
-    <form id="uploadForm">
-        <div class="form-group">
-            <label for="studentName">Full Name:</label>
-            <input type="text" id="studentName" required placeholder="e.g., John Doe">
+    <!-- Class Slides -->
+    <section>
+        <h2 class="section-title">Class Slides</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Date</th>
+                        <th style="width: 60%;">Topics Covered</th>
+                        <th style="width: 20%;">Slides</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>18 Sept</td>
+                        <td>Basic Matrix Notations</td>
+                        <td><a href="#" class="btn btn-outline" onclick="alert('Downloading Slide 1 PDF'); return false;">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>20 Sept</td>
+                        <td>LU Decomposition</td>
+                        <td><a href="#" class="btn btn-outline" onclick="alert('Downloading Slide 2 PDF'); return false;">PDF</a></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+    </section>
 
-        <div class="form-group">
-            <label for="studentId">Student ID:</label>
-            <input type="text" id="studentId" required placeholder="e.g., 20261234">
+    <!-- Assignments -->
+    <section>
+        <h2 class="section-title">Assignments</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 18%;">Date</th>
+                        <th style="width: 32%;">Assignment Name</th>
+                        <th style="width: 50%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>20 Sept</td>
+                        <td>
+                            <strong>Assignment 1</strong><br>
+                            <span style="font-size: 0.85rem; color: var(--text-muted);">Matrix Basics</span>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-outline" onclick="alert('Downloading Assignment 1 Questions PDF'); return false;">Questions</a>
+                                <button class="btn btn-disabled" disabled>Deadline is over</button>
+                                <a href="#" class="btn btn-outline" onclick="alert('Downloading Assignment 1 Solution PDF'); return false;">Solution</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>30 Sept</td>
+                        <td>
+                            <strong>Assignment 2</strong><br>
+                            <span style="font-size: 0.85rem; color: var(--text-muted);">Matrix Rank</span>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-outline" onclick="alert('Downloading Assignment 2 Questions PDF'); return false;">Questions</a>
+                                <button class="btn btn-primary" onclick="openSubmissionModal()">Submit Assignment</button>
+                                <a href="#" class="btn btn-outline" onclick="alert('Downloading Assignment 2 Solution PDF'); return false;">Solution</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+    </section>
 
-        <div class="form-group">
-            <label for="assignmentFile">Select Assignment Document (PDF only):</label>
-            <input type="file" id="assignmentFile" accept="application/pdf" required>
-        </div>
+    <!-- References -->
+    <section>
+        <h2 class="section-title">References</h2>
+        <ul class="reference-list">
+            <li>Horn & Johnson – <em>Matrix Analysis</em></li>
+            <li>Golub & Van Loan – <em>Matrix Computations</em></li>
+            <li>Gilbert Strang – <em>Linear Algebra and Its Applications</em></li>
+        </ul>
+    </section>
 
-        <button type="submit" id="submitBtn">Submit Assignment</button>
-    </form>
-    
-    <div id="status"></div>
-
-    <div class="footer-support">
-        For any submission-related issues, please email:<br>
+    <!-- Footer -->
+    <footer class="footer">
+        For any course or submission-related inquiries, please email:<br>
         <a href="mailto:avik.adhikary@swjtu.edu.cn">avik.adhikary@swjtu.edu.cn</a>
+    </footer>
+</div>
+
+<!-- Submission Modal -->
+<div class="modal-backdrop" id="uploadModal">
+    <div class="modal-card">
+        <button class="close-modal-btn" onclick="closeSubmissionModal()">&times;</button>
+        <div class="modal-header">
+            <p class="course-code" style="margin-bottom: 4px;">LM34002001-01</p>
+            <h2 style="font-size: 1.25rem; margin: 0 0 10px 0;">Matrix Analysis</h2>
+            <div class="assignment-badge" id="assignmentTitle">Assignment 2</div>
+            
+            <div class="modal-notice">
+                <strong>Deadline:</strong> October 21, 2026 (23:59:59 CST / Beijing Time)<br>
+                Note: Only PDF files are accepted for submission.
+            </div>
+        </div>
+
+        <!-- Closed notice container -->
+        <div id="closedBanner" class="expired-banner" style="display: none;">
+            Submission deadline for Assignment 2 is over.
+        </div>
+
+        <!-- Form container -->
+        <form id="uploadForm">
+            <div class="form-group">
+                <label for="studentName">Full Name:</label>
+                <input type="text" id="studentName" required placeholder="e.g., John Doe">
+            </div>
+
+            <div class="form-group">
+                <label for="studentId">Student ID:</label>
+                <input type="text" id="studentId" required placeholder="e.g., 20261234">
+            </div>
+
+            <div class="form-group">
+                <label for="assignmentFile">Select Assignment Document (PDF only):</label>
+                <input type="file" id="assignmentFile" accept="application/pdf" required>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Submit Assignment</button>
+        </form>
+        
+        <div id="status"></div>
     </div>
 </div>
 
 <script>
-const WORKER_URL = 'https://assignment-proxy.avikranjanadhikary.workers.dev/'; // e.g. https://assignment-proxy.subdomain.workers.dev
+const WORKER_URL = 'https://assignment-proxy.avikranjanadhikary.workers.dev/';
 
 // Current assignment details
 const ASSIGNMENT_NUM = "2";
 const ASSIGNMENT_FOLDER = `Assignment_${ASSIGNMENT_NUM}`;
 
 // Beijing Standard Time (UTC+8) ISO 8601 Timestamp
-// Format: YYYY-MM-DDTHH:mm:ss+08:00
 const BEIJING_DEADLINE_ISO = "2026-10-27T23:59:59+08:00"; 
 const DEADLINE = new Date(BEIJING_DEADLINE_ISO); 
 
@@ -191,8 +552,20 @@ function checkDeadline() {
     return false;
 }
 
-// Initial check on load
-checkDeadline();
+function openSubmissionModal() {
+    checkDeadline();
+    document.getElementById('status').innerText = '';
+    document.getElementById('uploadModal').style.display = 'flex';
+}
+
+function closeSubmissionModal() {
+    document.getElementById('uploadModal').style.display = 'none';
+}
+
+// Close modal when clicking outside card
+document.getElementById('uploadModal').addEventListener('click', function(e) {
+    if (e.target === this) closeSubmissionModal();
+});
 
 document.getElementById('uploadForm').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -247,11 +620,11 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
             st.style.color = 'green';
             st.innerText = 'Assignment submitted successfully!';
             document.getElementById('uploadForm').reset();
+            setTimeout(closeSubmissionModal, 2000);
         } else {
             const errData = await response.json().catch(() => ({}));
             let errorMsg = errData.message || 'Upload failed';
             
-            // Intercept backend token errors and display user-friendly message
             if (errorMsg.toLowerCase().includes('bad credentials') || response.status === 401 || response.status === 403) {
                 errorMsg = 'Submission deadline is over or submission portal credentials have expired.';
             }
