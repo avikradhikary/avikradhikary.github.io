@@ -416,7 +416,7 @@
 
     <!-- Notice Box -->
     <div class="notice-box">
-        <strong>Notice: <em>Assignment 4</em> released. Deadline 24 Nov, 2026.
+        <strong>Notice: <em>Assignment 5</em> released. Deadline 01 Dec, 2026.
     </div>
 
     <!-- Class Slides -->
@@ -476,6 +476,11 @@
                         <td>18 Nov, 2026</td>
                         <td>Eigen values, Eigen vectors, Eigen value decomposition</td>
                         <td><a href="slides/MatrixAnalysis8 2026.pdf" target="_blank" class="btn btn-danger">PDF</a></td>
+                    </tr>
+                    <tr>
+                        <td>25 Nov, 2026</td>
+                        <td>Properties of Eigen values & Eigen vectors, Positive definite matrices</td>
+                        <td><a href="slides/MatrixAnalysis9 2026.pdf" target="_blank" class="btn btn-danger">PDF</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -555,6 +560,24 @@
                             <div class="action-column">
                                 <div class="btn-group">
                                     <a href="assignments/assignment4.pdf" target="_blank" class="btn btn-danger">Questions</a>
+                                    <!--<button class="btn btn-primary" onclick="openSubmissionModal()">Submit Assignment</button> -->
+                                   <button class="btn btn-disabled" disabled>Deadline is over</button> 
+                                    <a href="" target="_blank" class="btn btn-success">Solutions</a>
+                                </div>
+                              <!--  <div class="deadline-subtext">Deadline: 21 Oct, 2026. If there is no matrix code assigned to your student ID, please contact me through Wechat.</div>-->
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>18 Nov, 2026</td>
+                        <td>
+                            <strong>Assignment 5</strong><br>
+                            <span style="font-size: 0.85rem; color: var(--text-muted);">Properties of Eigen values & Eigen vectors, Positive definite matrices</span>
+                        </td>
+                        <td>
+                            <div class="action-column">
+                                <div class="btn-group">
+                                    <a href="assignments/assignment5.pdf" target="_blank" class="btn btn-danger">Questions</a>
                                     <button class="btn btn-primary" onclick="openSubmissionModal()">Submit Assignment</button> 
                                    <!--<button class="btn btn-disabled" disabled>Deadline is over</button> -->
                                     <a href="" target="_blank" class="btn btn-success">Solutions</a>
@@ -679,17 +702,17 @@
         <div class="modal-header">
             <p class="course-code" style="margin-bottom: 4px;">LM34002001-01</p>
             <h2 style="font-size: 1.25rem; margin: 0 0 10px 0;">Matrix Analysis</h2>
-            <div class="assignment-badge" id="assignmentTitle">Assignment 4</div>
+            <div class="assignment-badge" id="assignmentTitle">Assignment 5</div>
             
             <div class="modal-notice">
-                <strong>Deadline:</strong> November 24, 2026 (23:59:59 CST / Beijing Time)<br>
+                <strong>Deadline:</strong> December 01, 2026 (23:59:59 CST / Beijing Time)<br>
                 Note: Only PDF files are accepted for submission.
             </div>
         </div>
 
         <!-- Closed notice container -->
         <div id="closedBanner" class="expired-banner" style="display: none;">
-            Submission deadline for Assignment 4 is over.
+            Submission deadline for Assignment 5 is over.
         </div>
 
         <!-- Form container -->
@@ -720,11 +743,11 @@
 const WORKER_URL = 'https://assignment-proxy.avikranjanadhikary.workers.dev/';
 
 // Current assignment details
-const ASSIGNMENT_NUM = "4";
+const ASSIGNMENT_NUM = "5";
 const ASSIGNMENT_FOLDER = `Assignment_${ASSIGNMENT_NUM}`;
 
-// Beijing Standard Time (UTC+8) ISO 8601 Timestamp: Nov 24, 2026
-const BEIJING_DEADLINE_ISO = "2026-11-24T23:59:59+08:00"; 
+// Beijing Standard Time (UTC+8) ISO 8601 Timestamp: Dec 01, 2026
+const BEIJING_DEADLINE_ISO = "2026-12-01T23:59:59+08:00"; 
 const DEADLINE = new Date(BEIJING_DEADLINE_ISO); 
 
 function checkDeadline() {
